@@ -1,0 +1,18 @@
+# data required
+
+// skip this for now
+1. problem solved, problem number 
+2. {
+    userName,
+    maxRating,
+    profilePic
+}
+
+
+
+roadmap
+1. deploy a static, portfolio type website => done
+2. get domain name => can get subdomain for gree
+3. deploy a web app with react code
+4. deplay a web app with some sql data base, like a todo list app
+5. understand authentication and browser cookie.
