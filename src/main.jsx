@@ -2,6 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { BrowserRouter } from "react-router-dom"
+import { Auth0Provider } from "@auth0/auth0-react";
+
 
 // < 1200	Newbie	=> 1000 to 1299, Gray
 // 1200 – 1399	  => 1300 to 1599, Pupil	Green
@@ -16,8 +18,14 @@ import { BrowserRouter } from "react-router-dom"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Auth0Provider
+      domain="dev-glsg02yr8js7huzb.us.auth0.com"
+      clientId="83xd2V3dygpYXd5oQYPPFKT7jeTerj8C"
+      authorizationParams={{ redirect_uri: window.location.origin }}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Auth0Provider>
   </StrictMode>,
 )

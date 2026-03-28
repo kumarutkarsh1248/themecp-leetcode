@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  background-color: white;
+  /* or any color you like */
+  border-bottom: 1px solid #ccc;
+  padding: 0 20px;
+  justify-content: space-evenly;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  /* makes it horizontal */
+  gap: 20px;
+  /* space between items */
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  padding: 15px 0;
+  position: relative;
+  /* needed for the underline */
+}
+
+.nav-link:hover {
+  color: #1a73e8;
+  /* highlight color */
+}

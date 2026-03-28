@@ -1,5 +1,7 @@
+import "./level-sheet.css"
+
 // rating → css class mapping
-const ratingRanges = [
+export const ratingRanges = [
   [1000, 1299, "cell-1000-to-1299"],
   [1300, 1599, "cell-1300-to-1599"],
   [1600, 1899, "cell-1600-to-1899"],
@@ -94,3 +96,4 @@ export default function LevelSheet() {
     </div>
   );
 }
+
