@@ -4,7 +4,6 @@ import App from './App.jsx'
 import { BrowserRouter } from "react-router-dom"
 import { Auth0Provider } from "@auth0/auth0-react";
 
-
 // < 1200	Newbie	=> 1000 to 1299, Gray
 // 1200 – 1399	  => 1300 to 1599, Pupil	Green
 // 1400 – 1599	  => 1600 to 1899, Specialist	Cyan
@@ -26,6 +25,7 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
+      
     </Auth0Provider>
   </StrictMode>,
 )

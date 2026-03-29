@@ -1,4 +1,5 @@
 import { Route, Routes, Link } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react"
 
 import Navbar from "./pages/navbar/navbar"
 import Contest from "./pages/contest/contest"
@@ -11,6 +12,8 @@ import "./style.css"
 
 
 export default function App() {
+  const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
+
   return <>
     <div className="body-container">
       <Navbar />

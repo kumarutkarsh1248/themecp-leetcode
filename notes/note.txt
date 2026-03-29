@@ -17,6 +17,7 @@ roadmap
 4. deplay a web app with some sql data base, like a todo list app
 5. understand authentication and browser cookie.
 
-7. the can be cases where for the selected level 
+7. there can be cases where for the selected level 
 theme is not able to find any question from the db
 
+8. change the whole ui with login logout
