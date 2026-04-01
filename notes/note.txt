@@ -8,8 +8,6 @@
     profilePic
 }
 
-
-
 roadmap
 1. deploy a static, portfolio type website => done
 2. get domain name => can get subdomain for gree
@@ -20,4 +18,14 @@ roadmap
 7. there can be cases where for the selected level 
 theme is not able to find any question from the db
 
-8. change the whole ui with login logout
+done 8. change the whole ui with login logout
+
+9. make the whole logic for adding the profile and how to connect with the data base
+
+10. explore createBrowserRouter.
+
+11. whenever the react component get rerendered, useState preserve its data but when the whole page
+get refreshed every useState loose its info, to optimize it
+later we can store that info in localStorage
+
+12. authentication login-logout logic has got bit messy, resolve it

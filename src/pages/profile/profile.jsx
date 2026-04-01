@@ -1,30 +1,19 @@
+import { Route, Routes, Link, Outlet } from "react-router-dom"
+import { useAuth0 } from "@auth0/auth0-react"
+
+import ProfileNavbar from "./sub/navbar"
+import ContestHistory from "./sub/contest_history"
+import ProfileInfo from "./sub/profile_info"
 import "./profile.css"
-import { getUserData } from "./utils"
-import { useEffect, useState } from "react";
 
 
 export default function Profile() {
+  const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const result = await getUserData("nvnukumarutkarsh");
-                console.log(result)
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        fetchData();
-    }, []);
-
-    return <>
-        <div className="profile">
-            <div className="profile-container">
-                <div className="box"></div>
-                <div className="box"></div>
-                <div className="box"></div>
-            </div>
-        </div>
-    </>
+  return <>
+    <div className="profile-container">
+      <ProfileNavbar />
+      <Outlet />
+    </div>
+  </>
 }

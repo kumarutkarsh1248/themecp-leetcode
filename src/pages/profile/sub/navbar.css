@@ -1,5 +1,5 @@
 /* Navbar container */
-.navbar {
+.navbar-profile {
   display: flex;
   justify-content: space-between; /* better layout */
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 /* Nav list */
-.navbar .nav-list {
+.navbar-profile .nav-list {
   list-style: none;
   display: flex;
   gap: 25px;
@@ -20,7 +20,7 @@
 }
 
 /* Links */
-.navbar .nav-list a {
+.navbar-profile .nav-list a {
   text-decoration: none;
   color: black;
   font-weight: 500;
@@ -30,12 +30,12 @@
 }
 
 /* Hover effect */
-.navbar .nav-list a:hover {
+.navbar-profile .nav-list a:hover {
   color: #1a73e8;
 }
 
 /* Underline animation */
-.navbar .nav-list a::after {
+.navbar-profile .nav-list a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -46,12 +46,12 @@
   transition: width 0.3s ease;
 }
 
-.navbar .nav-list a:hover::after {
+.navbar-profile .nav-list a:hover::after {
   width: 100%;
 }
 
 /* Button styling */
-.navbar button {
+.navbar-profile button {
   padding: 8px 16px;
   border: none;
   background-color: #1a73e8;
@@ -63,6 +63,6 @@
 }
 
 /* Button hover */
-.navbar button:hover {
+.navbar-profile button:hover {
   background-color: #1558b0;
 }

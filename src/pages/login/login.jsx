@@ -3,13 +3,15 @@ import { makeEntry, removeEntry } from "./utils"
 import { useEffect } from "react"
 import "./login.css"
 
-export default function Profile() {
+export default function Login() {
     // user is js object
     const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
     useEffect(() => {
         const run = async () => {
             if (isAuthenticated) {
+                console.log("inside login and its authennticated")
+                console.log(user)
                 let x = await makeEntry(user);
             }
         };
@@ -21,7 +23,7 @@ export default function Profile() {
             {
                 isAuthenticated ? (
                     <h1>hello {user.name}</h1>
-                ) : <h1></h1>
+                ) : null
             }
 
             {
