@@ -21,8 +21,8 @@ createRoot(document.getElementById('root')).render(
       domain="dev-glsg02yr8js7huzb.us.auth0.com"
       clientId="83xd2V3dygpYXd5oQYPPFKT7jeTerj8C"
       authorizationParams={{ redirect_uri: window.location.origin }}
-      // cacheLocation="localstorage"
-      // useRefreshTokens={true}
+      cacheLocation="localstorage"
+      useRefreshTokens={true}
     >
       <BrowserRouter>
         <App />

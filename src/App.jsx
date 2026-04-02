@@ -10,14 +10,20 @@ import Level_sheet from "./pages/level-sheet/level-sheet"
 import Guide from "./pages/guide/guide"
 import Login from "./pages/login/login"
 
+import { makeEntry } from "./utils"
+
 import ProfileInfo from "./pages/profile/sub/profile_info"
 import ContestHistory from "./pages/profile/sub/contest_history"
 import "./style.css"
 
 
 export default function App() {
-  const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
+  // login page disappears after authorization, and login can be done in two
+  // ways first from the login page and second from the login button
+  // so here in the main page we are checking if the isAuth get
+  // true then make the entry
+  const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
   useEffect(() => {
     const run = async () => {
       if (isAuthenticated && user) {

@@ -1,7 +1,7 @@
-export async function removeEntry(sub){
+export async function removeEntry(name){
     try {
         console.log("Sending info for user removal")
-        const result = await axios.delete(`http://localhost:3002/remove_user/${sub}`);
+        const result = await axios.delete(`http://localhost:3002/remove_user/${name}`);
         return result.data; 
     } catch (err) {
         console.error("Error in makeEntry:", err);

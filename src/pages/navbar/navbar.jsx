@@ -30,12 +30,12 @@ export default function Navbar() {
         onClick={async () => {
           if (isAuthenticated) {
             if (confirm("Do you really want to logout?")) {
-              try {
-                await removeEntry(user.sub)
-              }
-              catch {
-                alert("unable to logout")
-              }
+              // try {
+              //   await removeEntry(user.name)
+              // }
+              // catch {
+              //   alert("unable to logout")
+              // }
               logout({
                 logoutParams: {
                   returnTo: window.location.origin,

@@ -32,7 +32,7 @@ export async function getQuestions(ratings) {
 
     for (let rating of ratings) {
         try {
-            const result = await axios.get("http://localhost:3002/get", {
+            const result = await axios.get("http://localhost:3002/problems/get", {
                 params: {
                     rating: rating,
                     user_id: 0
