@@ -1,18 +1,40 @@
-# React + Vite
+# data required
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+// skip this for now
+1. problem solved, problem number 
+2. {
+    userName,
+    maxRating,
+    profilePic
+}
 
-Currently, two official plugins are available:
+roadmap
+1. deploy a static, portfolio type website => done
+2. get domain name => can get subdomain for gree
+3. deploy a web app with react code
+4. deplay a web app with some sql data base, like a todo list app
+5. understand authentication and browser cookie.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+7. there can be cases where for the selected level 
+theme is not able to find any question from the db
 
-## React Compiler
+done 8. change the whole ui with login logout
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+9. make the whole logic for adding the profile and how to connect with the data base
 
-Note: This will impact Vite dev & build performances.
+10. explore createBrowserRouter.
 
-## Expanding the ESLint configuration
+11. whenever the react component get rerendered, useState preserve its data but when the whole page
+get refreshed every useState loose its info, to optimize it
+later we can store that info in localStorage
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+12. authentication login-logout logic has got bit messy, resolve it
+
+13. make the contest history (for now leave the profile add logic, this will be the last thing i will do)
+    => contest history data base and how it will connect with other tables
+    => retrieving the data from the table and showing in the contest history
+    => rating increase logic
+    => showing the histogram
+
+## ER diagram of the current database
+<img src="images/db.png" width="600"/>
