@@ -26,32 +26,61 @@ export function CreatedContest({ level }) {
             <div className="theme">Theme : mixed</div>
 
             <div className="middle-table">
-                <div className="outer">
-                    <div className="left">Problem Rating :</div>
-                    <div className="right">
+                <div className="row">
+
+                    <div className="col-left">Problem Rating</div>
+                    <div className="col-right">
                         {ratings.map((r, i) => (
-                            <button key={i} className={`cell b${i + 1}`}>{r}</button>
+                            <div key={i} className={`cell b${i + 1}`}>{r}</div>
                         ))}
                     </div>
+
                 </div>
 
-                <div className="outer">
-                    <div className="left">Problem Content :</div>
-                    <div className="right">
+                <div className="row">
+
+                    <div className="col-left">Problems Link: </div>
+                    <div className="col-right">
                         {[1, 2, 3, 4].map((i) => (
-                            <button key={i} className={`cell b${i} link`}>
+                            <div key={i} className={`cell b${i} link`}>
                                 <a
                                     href={`https://leetcode.com/problems/${questions[i - 1]}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    Problem {i}
+                                    Q{i}
                                 </a>
-                            </button>
+                            </div>
                         ))}
                     </div>
+
+
+
+                </div>
+
+                <div className="row">
+
+                    <div className="col-left">ReRoll Problem:</div>
+                    <div className="col-right">
+                        {ratings.map((r, i) => (
+                            <div key={i} className={`cell b${i + 1}`}>{r}</div>
+                        ))}
+                    </div>
+
+                </div>
+
+                <div className="row">
+
+                    <div className="col-left">Custom Problem:</div>
+                    <div className="col-right">
+                        {ratings.map((r, i) => (
+                            <div key={i} className={`cell b${i + 1}`}>{r}</div>
+                        ))}
+                    </div>
+
                 </div>
             </div>
+
 
             <div className="contest-duration">Contest Duration : 120 min</div>
 
