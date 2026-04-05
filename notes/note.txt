@@ -35,3 +35,8 @@ later we can store that info in localStorage
     => retrieving the data from the table and showing in the contest history
     => rating increase logic
     => showing the histogram
+
+14. understand react side effect: https://www.youtube.com/watch?v=Y-JtH75uXYw
+
+15. logic for the already running contest has become bit messy
+    make a proper road map of it

@@ -22,7 +22,6 @@ export function getRatings(level) {
         else if (i % 4 === 3) r3 += 100;
         else if (i !== 0) r4 += 100;
     }
-
     return [r1, r2, r3, r4]; // return numbers, not strings
 }
 
@@ -38,13 +37,53 @@ export async function getQuestions(ratings) {
                     user_id: 0
                 }
             });
-            console.log("here", result.data[0]["url_title"])
 
-            allQuestions.push(result.data[0]["url_title"]);
+            allQuestions.push([result.data[0]["id"], result.data[0]["url_title"]]);
 
         } catch (err) {
             console.log(err);
         }
     }
     return allQuestions;
+}
+
+export async function registerContest(email, level, questions) {
+
+    const data = {
+        "email": email,
+        "selected_level": level,
+        "problem_id1": questions[0][0],
+        "problem_id2": questions[1][0],
+        "problem_id3": questions[2][0],
+        "problem_id4": questions[3][0]
+    }
+    console.log(data)
+
+    try {
+        const result = await axios.post("http://localhost:3002/contest/add_contest", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+export async function isContestRunning(email) {
+    try {
+        const response = await axios.get(
+            "http://localhost:3002/contest/is_contest_running",
+            {
+                params: { email }
+            }
+        );
+
+        if (response.data.message === "no_contest_yet") {
+            return "no_contest_yet";
+        }
+
+        return response.data.start_time;
+
+    } catch (err) {
+        console.log("something wrong in the server side", err);
+        return "error";
+    }
 }

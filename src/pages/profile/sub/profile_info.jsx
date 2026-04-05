@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react"
 import ProfileNavbar from "./navbar"
 
+
 export default function ProfileInfo() {
 
     const contest_rating = 1306
@@ -11,12 +12,34 @@ export default function ProfileInfo() {
     const contest_attempt = 63
     const email = "kumar.utkarsh.cd.mec22@itbhu.ac.in"
 
+    const [value, setValue] = useState("");
+
     return <>
+        <div>
+            <label><b>Leetcode profile :</b></label>
+
+            <input
+                type="text"
+                placeholder="ex: your-username"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+            />
+
+            <button
+                onClick={() => {
+                    console.log("submitted:", value);
+                }}
+            >
+                submit
+            </button>
+        </div>
+
+
         <div className="profile-info">
 
             <div className="details">
                 <h1>Pupil</h1>
-                <p> &#128200; Contest Rating: {contest_rating} </p>
+                <p>&#128200; Contest Rating: {contest_rating} </p>
                 <p>&#127775; Best Performance: {best_performance}</p>
                 <p>&#127775; Contest Attempt: {contest_attempt}</p>
                 <p>&#128231; Email: {email}</p>

@@ -1,19 +1,28 @@
 import { useState, useEffect } from "react"
 import "./created-contest.css"
-import { getRatings, getQuestions } from "./utility";
+import { getRatings, getQuestions, registerContest } from "./utility";
+import { useAuth0 } from "@auth0/auth0-react"
 
-export function CreatedContest({ level }) {
+
+export function CreatedContest({ level, running, copyQuestions, copyRatings }) {
+    const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
+
+
     const ratings = getRatings(level);
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState([0, 0, 0, 0]);
 
     useEffect(() => {
         async function fetchData() {
             const q = await getQuestions(ratings);
             setQuestions(q);
         }
-
         fetchData();
-    }, [level]);
+    }, []);
+
+    useEffect(() => {
+        copyQuestions(questions)
+        copyRatings(ratings);
+    }, [questions])
 
     return (
         <div className="created-contest">
@@ -44,7 +53,7 @@ export function CreatedContest({ level }) {
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className={`cell b${i} link`}>
                                 <a
-                                    href={`https://leetcode.com/problems/${questions[i - 1]}`}
+                                    href={`https://leetcode.com/problems/${questions[i - 1][1]}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -53,17 +62,14 @@ export function CreatedContest({ level }) {
                             </div>
                         ))}
                     </div>
-
-
-
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
 
                     <div className="col-left">ReRoll Problem:</div>
                     <div className="col-right">
                         {ratings.map((r, i) => (
-                            <div key={i} className={`cell b${i + 1}`}>{r}</div>
+                            <div key={i} className={`cell b${i + 1}`}>ReRoll {i + 1}</div>
                         ))}
                     </div>
 
@@ -78,7 +84,7 @@ export function CreatedContest({ level }) {
                         ))}
                     </div>
 
-                </div>
+                </div> */}
             </div>
 
 
@@ -88,7 +94,11 @@ export function CreatedContest({ level }) {
                 Contest Starts in 15 sec before starting the contest
             </div>
 
-            <button className="start-btn">Start</button>
+            <button className="start-btn" onClick={() => {
+                registerContest(user["email"], level, questions)
+                running(true)
+            }
+            }>Start</button>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import "./choose-contest.css"
 import { getRatings } from "./utility";
 
 export function ChooseContest({ onSubmit, setSelectedLevel }) {
-  let current_level = 23;
+  let current_level = 23; // default
   const [level, setLevel] = useState(current_level);
 
   const [problems, setProblems] = useState([
