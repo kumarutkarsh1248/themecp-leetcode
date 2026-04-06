@@ -6,7 +6,7 @@ import axios from "axios";
 //     return request;
 // });
 
-export function getRatings(level) {
+function getRatings(level) {
     if (level == null || isNaN(level)) {
         return [1000, 1200, 1400, 1600];
     }
@@ -25,7 +25,7 @@ export function getRatings(level) {
     return [r1, r2, r3, r4]; // return numbers, not strings
 }
 
-export async function getQuestions(ratings) {
+async function getQuestions(ratings) {
     // let allQuestions = ["a", "b", "c", "d"];
     let allQuestions = [];
 
@@ -47,7 +47,7 @@ export async function getQuestions(ratings) {
     return allQuestions;
 }
 
-export async function registerContest(email, level, questions) {
+async function registerContest(email, level, questions) {
 
     const data = {
         "email": email,
@@ -67,23 +67,39 @@ export async function registerContest(email, level, questions) {
     }
 }
 
-export async function isContestRunning(email) {
-    try {
-        const response = await axios.get(
-            "http://localhost:3002/contest/is_contest_running",
-            {
-                params: { email }
-            }
-        );
+async function isContestRunning(email) {
+  try {
+    const response = await axios.get(
+      "http://localhost:3002/contest/is_contest_running",
+      {
+        params: { email },
+      }
+    );
+    console.log("here1", response)
+    return response.data;
+  } catch (error) {
+    console.error("Error while checking contest status:", error);
 
-        if (response.data.message === "no_contest_yet") {
-            return "no_contest_yet";
-        }
-
-        return response.data.start_time;
-
-    } catch (err) {
-        console.log("something wrong in the server side", err);
-        return "error";
-    }
+    return {
+      success: false,
+      data: null,
+      message: "Request failed",
+    };
+  }
 }
+
+function getSecondsAgo(timestamp) {
+  const past = new Date(timestamp).getTime(); // ms
+  const now = Date.now(); // ms
+
+  const diffMs = now - past; // difference in ms
+  return Math.floor(diffMs / 1000); // convert to seconds
+}
+
+export {
+  getSecondsAgo,
+  isContestRunning,
+  registerContest,
+  getQuestions,
+  getRatings
+};

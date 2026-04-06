@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "./running-contest.css"
 
-function Timer() {
-  const [count, setCount] = useState(0);
+function Timer({start_time}) {
+  const [count, setCount] = useState(start_time);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -15,13 +15,12 @@ function Timer() {
   return <h1>Running time = {count}</h1>;
 }
 
-export function Running({ ques, ratngs }) {
+export function Running({ ques, ratngs, start_time }) {
   return (
     <>
-
       <div className="running-container">
 
-        <Timer />
+        <Timer start_time={start_time}/>
         <button>Refresh to verify submission</button>
 
         <div className="table-container">
