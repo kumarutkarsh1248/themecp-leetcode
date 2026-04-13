@@ -1,12 +1,22 @@
 import { useState, useEffect } from "react";
+import { getSubmissionTime } from "./utility";
 import "./running-contest.css"
 
-function Timer({start_time}) {
-  const [count, setCount] = useState(start_time);
+function Timer({ start_time, count, setCount }) {
+  // const [count, setCount] = useState(start_time, count, setCount);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCount(prev => prev + 1);
+      setCount(prev => {
+        const newCount = prev + 1;
+
+        if (newCount >= 50) {
+          clearInterval(interval);
+          window.location.reload(); //reload entire app
+        }
+
+        return newCount;
+      });
     }, 1000);
 
     return () => clearInterval(interval);
@@ -15,13 +25,35 @@ function Timer({start_time}) {
   return <h1>Running time = {count}</h1>;
 }
 
-export function Running({ ques, ratngs, start_time }) {
+export function Running({ ques, ratngs, start_time, leetcodeProfileName }) {
+  const [count, setCount] = useState(start_time);
+  const [submissionTime, setSubmissionTime] = useState([0, 0, 0, 0]);
+
   return (
     <>
       <div className="running-container">
 
-        <Timer start_time={start_time}/>
-        <button>Refresh to verify submission</button>
+        <Timer start_time={start_time} count={count} setCount={setCount} />
+        <button onClick={async () => {
+
+          try {
+            const updated = await getSubmissionTime(
+              leetcodeProfileName,
+              ques,
+              count,
+              submissionTime
+            );
+            console.log(updated)
+
+            setSubmissionTime(updated);
+          }
+          catch (err) {
+            console.log("some error occured while getting the submissio status")
+            console.log(err)
+          }
+
+
+        }}>Refresh to verify submission</button>
 
         <div className="table-container">
           <table>
@@ -41,7 +73,7 @@ export function Running({ ques, ratngs, start_time }) {
                   target="_blank"
                   rel="noopener noreferrer">Problem A</a> </td>
                 <td>{ratngs[0]}</td>
-                <td>4</td>
+                <td>{submissionTime[0] ? "Accepted" : "not yet done"}</td>
               </tr>
               <tr>
                 <td>2</td>
@@ -49,7 +81,7 @@ export function Running({ ques, ratngs, start_time }) {
                   target="_blank"
                   rel="noopener noreferrer">Problem B</a> </td>
                 <td>{ratngs[1]}</td>
-                <td>4</td>
+                <td>{submissionTime[1] ? "Accepted" : "not yet done"}</td>
               </tr>
               <tr>
                 <td>3</td>
@@ -57,7 +89,7 @@ export function Running({ ques, ratngs, start_time }) {
                   target="_blank"
                   rel="noopener noreferrer">Problem C</a> </td>
                 <td>{ratngs[2]}</td>
-                <td>4</td>
+                <td>{submissionTime[2] ? "Accepted" : "not yet done"}</td>
               </tr>
               <tr>
                 <td>4</td>
@@ -65,10 +97,8 @@ export function Running({ ques, ratngs, start_time }) {
                   target="_blank"
                   rel="noopener noreferrer">Problem D</a> </td>
                 <td>{ratngs[3]}</td>
-                <td>4</td>
+                <td>{submissionTime[3] ? "Accepted" : "not yet done"}</td>
               </tr>
-
-
             </tbody>
           </table>
 

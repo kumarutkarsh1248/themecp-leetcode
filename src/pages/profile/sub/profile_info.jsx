@@ -5,7 +5,8 @@ import { useAuth0 } from "@auth0/auth0-react"
 import ProfileNavbar from "./navbar"
 
 
-export default function ProfileInfo() {
+export default function ProfileInfo({ leetcodeProfileName, setProfile }) {
+    console.log(leetcodeProfileName, "leetcodeprofile name")
 
     const contest_rating = 1306
     const best_performance = 1640
@@ -15,37 +16,36 @@ export default function ProfileInfo() {
     const [value, setValue] = useState("");
 
     return <>
-        <div>
-            <label><b>Leetcode profile :</b></label>
-
-            <input
-                type="text"
-                placeholder="ex: your-username"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-            />
-
-            <button
-                onClick={() => {
-                    console.log("submitted:", value);
-                }}
-            >
-                submit
-            </button>
-        </div>
-
-
         <div className="profile-info">
+            {
+                leetcodeProfileName==="" ? <div className="add-profile">
+                <b>Add Leetcode profile :</b>
+                <input
+                    type="text"
+                    placeholder="ex: your-username"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                />
 
+                <button
+                    onClick={() => {
+                        console.log("submitted:", value);
+                        setProfile(value)
+                    }}
+                >
+                    submit
+                </button>
+            </div> : null
+            }
+            
             <div className="details">
                 <h1>Pupil</h1>
+                <h3>{value}</h3>
                 <p>&#128200; Contest Rating: {contest_rating} </p>
                 <p>&#127775; Best Performance: {best_performance}</p>
                 <p>&#127775; Contest Attempt: {contest_attempt}</p>
                 <p>&#128231; Email: {email}</p>
             </div>
-
-
         </div>
     </>
 }

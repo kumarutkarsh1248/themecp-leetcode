@@ -68,38 +68,69 @@ async function registerContest(email, level, questions) {
 }
 
 async function isContestRunning(email) {
-  try {
-    const response = await axios.get(
-      "http://localhost:3002/contest/is_contest_running",
-      {
-        params: { email },
-      }
-    );
-    console.log("here1", response)
-    return response.data;
-  } catch (error) {
-    console.error("Error while checking contest status:", error);
+    try {
+        const response = await axios.get(
+            "http://localhost:3002/contest/is_contest_running",
+            {
+                params: { email },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error while checking contest status:", error);
 
-    return {
-      success: false,
-      data: null,
-      message: "Request failed",
-    };
-  }
+        return {
+            success: false,
+            data: null,
+            message: "Request failed",
+        };
+    }
 }
 
 function getSecondsAgo(timestamp) {
-  const past = new Date(timestamp).getTime(); // ms
-  const now = Date.now(); // ms
+    const past = new Date(timestamp).getTime(); // ms
+    const now = Date.now(); // ms
 
-  const diffMs = now - past; // difference in ms
-  return Math.floor(diffMs / 1000); // convert to seconds
+    const diffMs = now - past; // difference in ms
+    return Math.floor(diffMs / 1000); // convert to seconds
+}
+
+async function getRecentSubmissions(username) {
+  const res = await axios.get("http://localhost:3002/leetcode/recent-submissions", {
+    params: {
+      username: username
+    }
+  });
+
+  return res.data;
+}
+
+async function getSubmissionTime(userName, question, count, submissionTime) {
+  const submission = await getRecentSubmissions(userName);
+  console.log(question)
+  console.log(submission)
+
+  const newTimes = [...submissionTime]; // copy
+
+  for (const sub of submission) {
+    for (let i = 0; i < 4; i++) {
+      if (
+        sub.titleSlug === question[i][1] &&
+        sub.statusDisplay?.toLowerCase() === "accepted"
+      ) {
+        newTimes[i] = count;
+      }
+    }
+  }
+
+  return newTimes;
 }
 
 export {
-  getSecondsAgo,
-  isContestRunning,
-  registerContest,
-  getQuestions,
-  getRatings
+    getSecondsAgo,
+    isContestRunning,
+    registerContest,
+    getQuestions,
+    getRatings,
+    getSubmissionTime
 };

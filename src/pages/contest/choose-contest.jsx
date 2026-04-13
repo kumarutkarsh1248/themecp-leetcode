@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import "./choose-contest.css"
 import { getRatings } from "./utility";
 
-export function ChooseContest({ onSubmit, setSelectedLevel }) {
+export function ChooseContest({ setIsSubmitted, setSelectedLevel,  leetcodeProfileName}) {
   let current_level = 23; // default
   const [level, setLevel] = useState(current_level);
 
@@ -57,7 +57,11 @@ export function ChooseContest({ onSubmit, setSelectedLevel }) {
           className="create-btn"
           onClick={() => {
             setSelectedLevel(level); // send data up
-            onSubmit();              // switch block
+
+            if(leetcodeProfileName != "") setIsSubmitted(true); 
+            else{
+              alert("go to profile info and add leetcode profile first")
+            }  
           }}
         >
           Create ThemeCP

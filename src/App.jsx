@@ -1,6 +1,6 @@
 import { Route, Routes, Link } from "react-router-dom"
 import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import Navbar from "./pages/navbar/navbar"
 import Contest from "./pages/contest/contest"
@@ -19,6 +19,7 @@ import "./style.css"
 
 export default function App() {
 
+  const [leetcodeProfileName, setProfile] = useState("");
   // login page disappears after authorization, and login can be done in two
   // ways first from the login page and second from the login button
   // so here in the main page we are checking if the isAuth get
@@ -40,13 +41,13 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/contest" element={<Contest />} />
+        <Route path="/contest" element={<Contest leetcodeProfileName={leetcodeProfileName}/>} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/level-sheet" element={<Level_sheet />} />
         <Route path="/login" element={<Login />} />
 
         <Route path="/profile" element={<Profile />}>
-          <Route path="profile_info" element={<ProfileInfo />} />
+          <Route path="profile_info" element={<ProfileInfo leetcodeProfileName={leetcodeProfileName} setProfile={setProfile}/>} />
           <Route path="contest_history" element={<ContestHistory />} />
         </Route>
 

@@ -5,7 +5,7 @@ import { Running } from "./running-contest"
 import { useAuth0 } from "@auth0/auth0-react"
 import { getSecondsAgo, isContestRunning } from "./utility";
 
-export default function Contest() {
+export default function Contest({leetcodeProfileName}) {
   const [themeCreated, setIsSubmitted] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [questions, getQuestions] = useState([]);
@@ -21,8 +21,6 @@ export default function Contest() {
     async function checkContest() {
       const result = await isContestRunning(user.email);
 
-      console.log("here2", result)
-
       if (!result.success) {
         // message can be
         console.log("Request failed:", result.message);
@@ -36,7 +34,7 @@ export default function Contest() {
       
       // we found the last con
       let sec = getSecondsAgo(result.data.start_time);
-      if(sec < 7200){ // contest running
+      if(sec < 50){ // contest running
         setIsSubmitted(true)
         setSelectedLevel(result.data.selected_level)
         setRunning(true)
@@ -55,8 +53,9 @@ export default function Contest() {
     <>
       {!themeCreated ? (
         <ChooseContest
-          onSubmit={() => setIsSubmitted(true)}
+          setIsSubmitted={setIsSubmitted}
           setSelectedLevel={setSelectedLevel}
+          leetcodeProfileName={leetcodeProfileName}
         />
       ) : (
 
@@ -71,6 +70,7 @@ export default function Contest() {
           ques={questions}
           ratngs={ratings}
           start_time={startTime}
+          leetcodeProfileName={leetcodeProfileName}
         />
       )}
     </>

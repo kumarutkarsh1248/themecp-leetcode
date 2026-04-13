@@ -36,5 +36,6 @@ later we can store that info in localStorage
     => rating increase logic
     => showing the histogram
 
+14. use the leetcode profile name just to get the submission detail. everything related to identity will be related with user_id and email.
 ## ER diagram of the current database
 <img src="images/db.png" width="600"/>
