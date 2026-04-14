@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { getSubmissionTime } from "./utility";
+import { getSubmissionTime, updateSubmissionTime } from "./utility";
+import { useAuth0 } from "@auth0/auth0-react"
+
 import "./running-contest.css"
 
 function Timer({ start_time, count, setCount }) {
@@ -28,6 +30,7 @@ function Timer({ start_time, count, setCount }) {
 export function Running({ ques, ratngs, start_time, leetcodeProfileName }) {
   const [count, setCount] = useState(start_time);
   const [submissionTime, setSubmissionTime] = useState([0, 0, 0, 0]);
+  const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   return (
     <>
@@ -44,8 +47,8 @@ export function Running({ ques, ratngs, start_time, leetcodeProfileName }) {
               submissionTime
             );
             console.log(updated)
-
             setSubmissionTime(updated);
+            updateSubmissionTime(updated, user.email)
           }
           catch (err) {
             console.log("some error occured while getting the submissio status")

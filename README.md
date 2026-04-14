@@ -37,5 +37,9 @@ later we can store that info in localStorage
     => showing the histogram
 
 14. use the leetcode profile name just to get the submission detail. everything related to identity will be related with user_id and email.
+
+15. set update status on both the running contest and contest history page. everytimme the user press this button, the program is gonna look all the recent submission then its gonna update the user_problem table => this table is just gonna store the user-problem pair that has beed solved and the time at which those where solved
+and there will be one trigger which will update the problem status in the contest whenever new row get added in the user-problem.
+ 
 ## ER diagram of the current database
 <img src="images/db.png" width="600"/>

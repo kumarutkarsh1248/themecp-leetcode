@@ -122,8 +122,25 @@ async function getSubmissionTime(userName, question, count, submissionTime) {
       }
     }
   }
-
   return newTimes;
+}
+
+async function updateSubmissionTime(submissionTime, email){
+    const data = {
+        "email": email,
+        "problem1_solved_at": submissionTime[0],
+        "problem2_solved_at": submissionTime[1],
+        "problem3_solved_at": submissionTime[2],
+        "problem4_solved_at": submissionTime[3]
+    }
+    console.log(data)
+
+    try {
+        const result = await axios.post("http://localhost:3002/contest/update_submission_time", data)
+    }
+    catch (err) {
+        console.log(err)
+    }
 }
 
 export {
@@ -132,5 +149,6 @@ export {
     registerContest,
     getQuestions,
     getRatings,
-    getSubmissionTime
+    getSubmissionTime,
+    updateSubmissionTime
 };
