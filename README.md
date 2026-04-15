@@ -1,5 +1,7 @@
 # data required
 
+--> will decide marking scheme at the end.
+
 // skip this for now
 1. problem solved, problem number 
 2. {
@@ -40,6 +42,8 @@ later we can store that info in localStorage
 
 15. set update status on both the running contest and contest history page. everytimme the user press this button, the program is gonna look all the recent submission then its gonna update the user_problem table => this table is just gonna store the user-problem pair that has beed solved and the time at which those where solved
 and there will be one trigger which will update the problem status in the contest whenever new row get added in the user-problem.
- 
+
+16. code is getting bit messy, now need to include middle ware
+
 ## ER diagram of the current database
 <img src="images/db.png" width="600"/>

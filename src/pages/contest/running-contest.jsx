@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getSubmissionTime, updateSubmissionTime } from "./utility";
+import { getSubmissionTime, updateSubmission } from "./utility";
 import { useAuth0 } from "@auth0/auth0-react"
 
 import "./running-contest.css"
@@ -12,7 +12,7 @@ function Timer({ start_time, count, setCount }) {
       setCount(prev => {
         const newCount = prev + 1;
 
-        if (newCount >= 50) {
+        if (newCount >= 150) {
           clearInterval(interval);
           window.location.reload(); //reload entire app
         }
@@ -40,15 +40,7 @@ export function Running({ ques, ratngs, start_time, leetcodeProfileName }) {
         <button onClick={async () => {
 
           try {
-            const updated = await getSubmissionTime(
-              leetcodeProfileName,
-              ques,
-              count,
-              submissionTime
-            );
-            console.log(updated)
-            setSubmissionTime(updated);
-            updateSubmissionTime(updated, user.email)
+            updateSubmission(user.email, leetcodeProfileName)
           }
           catch (err) {
             console.log("some error occured while getting the submissio status")

@@ -95,51 +95,66 @@ function getSecondsAgo(timestamp) {
     return Math.floor(diffMs / 1000); // convert to seconds
 }
 
+async function getSubmissionTime(userName, question, count, submissionTime) {
+    const submission = await getRecentSubmissions(userName);
+    console.log(question)
+    console.log(submission)
+
+    const newTimes = [...submissionTime]; // copy
+
+    for (const sub of submission) {
+        for (let i = 0; i < 4; i++) {
+            if (
+                sub.titleSlug === question[i][1] &&
+                sub.statusDisplay?.toLowerCase() === "accepted"
+            ) {
+                newTimes[i] = count;
+            }
+        }
+    }
+    return newTimes;
+}
+
+// -----------------------------------------------
+// -----------------------------------------------
+// -----------------------------------------------
 async function getRecentSubmissions(username) {
   const res = await axios.get("http://localhost:3002/leetcode/recent-submissions", {
     params: {
       username: username
     }
   });
+  console.log("here", res)
 
   return res.data;
 }
 
-async function getSubmissionTime(userName, question, count, submissionTime) {
-  const submission = await getRecentSubmissions(userName);
-  console.log(question)
-  console.log(submission)
+async function updateSubmission(userEmail, leetCodeProfileName) {
 
-  const newTimes = [...submissionTime]; // copy
+    const submission = await getRecentSubmissions(leetCodeProfileName);
 
-  for (const sub of submission) {
-    for (let i = 0; i < 4; i++) {
-      if (
-        sub.titleSlug === question[i][1] &&
-        sub.statusDisplay?.toLowerCase() === "accepted"
-      ) {
-        newTimes[i] = count;
-      }
+    let data = { email: userEmail };
+    let newAccepted = [];
+
+    for (const sub of submission) {   // ✅ use "of"
+        if (sub.statusDisplay === "Accepted") {   // ✅ correct key
+            if (!newAccepted.includes(sub.titleSlug)) {  // ✅ check existence
+                newAccepted.push(sub.titleSlug);           // ✅ push
+            }
+        }
     }
-  }
-  return newTimes;
-}
 
-async function updateSubmissionTime(submissionTime, email){
-    const data = {
-        "email": email,
-        "problem1_solved_at": submissionTime[0],
-        "problem2_solved_at": submissionTime[1],
-        "problem3_solved_at": submissionTime[2],
-        "problem4_solved_at": submissionTime[3]
-    }
+    data.newAccepted = newAccepted;
     console.log(data)
 
     try {
-        const result = await axios.post("http://localhost:3002/contest/update_submission_time", data)
-    }
-    catch (err) {
-        console.log(err)
+        const result = await axios.post(
+            "http://localhost:3002/contest/update_submission",
+            data
+        );
+        console.log(result.data);
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -150,5 +165,5 @@ export {
     getQuestions,
     getRatings,
     getSubmissionTime,
-    updateSubmissionTime
+    updateSubmission
 };

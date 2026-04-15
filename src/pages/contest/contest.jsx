@@ -34,7 +34,7 @@ export default function Contest({leetcodeProfileName}) {
       
       // we found the last con
       let sec = getSecondsAgo(result.data.start_time);
-      if(sec < 50){ // contest running
+      if(sec < 150){ // contest running
         setIsSubmitted(true)
         setSelectedLevel(result.data.selected_level)
         setRunning(true)
