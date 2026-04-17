@@ -119,6 +119,7 @@ async function getSubmissionTime(userName, question, count, submissionTime) {
 // -----------------------------------------------
 // -----------------------------------------------
 async function getRecentSubmissions(username) {
+    console.log(username)
   const res = await axios.get("http://localhost:3002/leetcode/recent-submissions", {
     params: {
       username: username
@@ -130,8 +131,10 @@ async function getRecentSubmissions(username) {
 }
 
 async function updateSubmission(userEmail, leetCodeProfileName) {
+    console.log("inside update submission")
 
     const submission = await getRecentSubmissions(leetCodeProfileName);
+    console.log(submission)
 
     let data = { email: userEmail };
     let newAccepted = [];
@@ -145,7 +148,8 @@ async function updateSubmission(userEmail, leetCodeProfileName) {
     }
 
     data.newAccepted = newAccepted;
-    console.log(data)
+    if(newAccepted.length === 0) return;
+    console.log("here", data);
 
     try {
         const result = await axios.post(

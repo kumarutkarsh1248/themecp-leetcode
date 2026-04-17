@@ -1,19 +1,23 @@
 import "./profile_info.css"
-import { getUserData } from "./utils"
+import { getUserData, saveProfileName } from "./utils"
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react"
 import ProfileNavbar from "./navbar"
 
 
 export default function ProfileInfo({ leetcodeProfileName, setProfile }) {
-    console.log(leetcodeProfileName, "leetcodeprofile name")
+
+    const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
     const contest_rating = 1306
     const best_performance = 1640
     const contest_attempt = 63
     const email = "kumar.utkarsh.cd.mec22@itbhu.ac.in"
 
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(leetcodeProfileName);
+    useEffect(() => {
+        setValue(leetcodeProfileName);
+    }, [leetcodeProfileName]);
 
     return <>
         <div className="profile-info">
@@ -28,9 +32,10 @@ export default function ProfileInfo({ leetcodeProfileName, setProfile }) {
                 />
 
                 <button
-                    onClick={() => {
+                    onClick={async () => {
                         console.log("submitted:", value);
                         setProfile(value)
+                        await saveProfileName(value, user.email);
                     }}
                 >
                     submit

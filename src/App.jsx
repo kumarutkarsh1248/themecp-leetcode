@@ -10,7 +10,7 @@ import Level_sheet from "./pages/level-sheet/level-sheet"
 import Guide from "./pages/guide/guide"
 import Login from "./pages/login/login"
 
-import { makeEntry } from "./utils"
+import { makeEntry, getProfileName } from "./utils"
 
 import ProfileInfo from "./pages/profile/sub/profile_info"
 import ContestHistory from "./pages/profile/sub/contest_history"
@@ -30,6 +30,8 @@ export default function App() {
       if (isAuthenticated && user) {
         console.log("inside app and authenticated");
         await makeEntry(user);
+        const profileName =  await getProfileName(user.email);
+        if(profileName) setProfile(profileName);
       }
     };
     run();

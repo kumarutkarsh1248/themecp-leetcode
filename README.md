@@ -45,5 +45,7 @@ and there will be one trigger which will update the problem status in the contes
 
 16. code is getting bit messy, now need to include middle ware
 
+17. associate the leetcode profile with the email.
+
 ## ER diagram of the current database
 <img src="images/db.png" width="600"/>
