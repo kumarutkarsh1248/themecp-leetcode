@@ -25,16 +25,16 @@ function getRatings(level) {
     return [r1, r2, r3, r4]; // return numbers, not strings
 }
 
-async function getQuestions(ratings) {
+async function getQuestions(ratings, email) {
     // let allQuestions = ["a", "b", "c", "d"];
     let allQuestions = [];
 
     for (let rating of ratings) {
         try {
-            const result = await axios.get("http://localhost:3002/problems/get", {
+            const result = await axios.get("http://localhost:3002/problems/get_problem", {
                 params: {
                     rating: rating,
-                    user_id: 0
+                    email: email
                 }
             });
 
@@ -44,6 +44,7 @@ async function getQuestions(ratings) {
             console.log(err);
         }
     }
+    console.log(allQuestions);
     return allQuestions;
 }
 
@@ -60,7 +61,8 @@ async function registerContest(email, level, questions) {
     console.log(data)
 
     try {
-        const result = await axios.post("http://localhost:3002/contest/add_contest", data)
+        const result = await axios.post("http://localhost:3002/contest/add_contest", data);
+        return result.contest_id;
     }
     catch (err) {
         console.log(err)
@@ -95,24 +97,25 @@ function getSecondsAgo(timestamp) {
     return Math.floor(diffMs / 1000); // convert to seconds
 }
 
-async function getSubmissionTime(userName, question, count, submissionTime) {
-    const submission = await getRecentSubmissions(userName);
-    console.log(question)
-    console.log(submission)
-
-    const newTimes = [...submissionTime]; // copy
-
-    for (const sub of submission) {
-        for (let i = 0; i < 4; i++) {
-            if (
-                sub.titleSlug === question[i][1] &&
-                sub.statusDisplay?.toLowerCase() === "accepted"
-            ) {
-                newTimes[i] = count;
+async function getSubmissionStatus(contestId) {
+    try {
+        const result = await axios.get("http://localhost:3002/contest/get_contest", {
+            params: {
+                contestId: contestId
             }
-        }
+        })
+        console.log("(*)", result)
+        let ans = [false, false, false, false];
+        if(result.data.data.problem1_status === "solved_during_contest") ans[0] = true;
+        if(result.data.data.problem2_status === "solved_during_contest") ans[1] = true;
+        if(result.data.data.problem3_status === "solved_during_contest") ans[2] = true;
+        if(result.data.data.problem4_status === "solved_during_contest") ans[3] = true;
+        return ans;
     }
-    return newTimes;
+    catch(err){
+        console.log("error getting the problem status inside  getSubmissionStatus");
+        console.log(err);
+    }
 }
 
 // -----------------------------------------------
@@ -120,21 +123,20 @@ async function getSubmissionTime(userName, question, count, submissionTime) {
 // -----------------------------------------------
 async function getRecentSubmissions(username) {
     console.log(username)
-  const res = await axios.get("http://localhost:3002/leetcode/recent-submissions", {
-    params: {
-      username: username
-    }
-  });
-  console.log("here", res)
+    const res = await axios.get("http://localhost:3002/leetcode/recent-submissions", {
+        params: {
+            username: username
+        }
+    });
+    console.log("here", res)
 
-  return res.data;
+    return res.data;
 }
 
 async function updateSubmission(userEmail, leetCodeProfileName) {
     console.log("inside update submission")
 
     const submission = await getRecentSubmissions(leetCodeProfileName);
-    console.log(submission)
 
     let data = { email: userEmail };
     let newAccepted = [];
@@ -146,10 +148,11 @@ async function updateSubmission(userEmail, leetCodeProfileName) {
             }
         }
     }
+    console.log("recent submissions", newAccepted)
+
 
     data.newAccepted = newAccepted;
-    if(newAccepted.length === 0) return;
-    console.log("here", data);
+    if (newAccepted.length === 0) return;
 
     try {
         const result = await axios.post(
@@ -162,12 +165,45 @@ async function updateSubmission(userEmail, leetCodeProfileName) {
     }
 }
 
+async function getQuestionFromProblemId(id) {
+    try {
+        const result = await axios.get(
+            "http://localhost:3002/problems/get_question_from_problem_id",
+            {
+                params: { id: id }
+            }
+        );
+        return result.data.url_title;
+    }
+    catch (err) {
+        console.log("error while getting question from id while retrieving the running contest");
+        console.log(err);
+    }
+}
+async function getRatingFromProblemId(id) {
+    try {
+        const result = await axios.get(
+            "http://localhost:3002/problems/get_rating_from_problem_id",
+            {
+                params: { id: id }
+            }
+        );
+        return result.data.rating;
+    }
+    catch (err) {
+        console.log("error while getting rating from id while retrieving the running contest");
+        console.log(err);
+    }
+}
+
 export {
     getSecondsAgo,
     isContestRunning,
     registerContest,
     getQuestions,
     getRatings,
-    getSubmissionTime,
-    updateSubmission
+    getSubmissionStatus,
+    updateSubmission,
+    getQuestionFromProblemId,
+    getRatingFromProblemId
 };

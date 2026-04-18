@@ -4,7 +4,7 @@ import { getRatings, getQuestions, registerContest } from "./utility";
 import { useAuth0 } from "@auth0/auth0-react"
 
 
-export function CreatedContest({ level, running, copyQuestions, copyRatings }) {
+export function CreatedContest({ level, running, setContestId, copyQuestions, copyRatings }) {
     const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
 
@@ -13,7 +13,7 @@ export function CreatedContest({ level, running, copyQuestions, copyRatings }) {
 
     useEffect(() => {
         async function fetchData() {
-            const q = await getQuestions(ratings);
+            const q = await getQuestions(ratings, user.email);
             setQuestions(q);
         }
         fetchData();
@@ -94,9 +94,11 @@ export function CreatedContest({ level, running, copyQuestions, copyRatings }) {
                 Contest Starts in 15 sec before starting the contest
             </div>
 
-            <button className="start-btn" onClick={() => {
-                registerContest(user["email"], level, questions)
-                running(true)
+            <button className="start-btn" onClick={async () => {
+                const contest_id = await registerContest(user["email"], level, questions);
+                running(true);
+                setContestId(contest_id);
+                console.log("contest_id", contest_id);
             }
             }>Start</button>
         </div>

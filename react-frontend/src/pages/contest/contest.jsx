@@ -3,21 +3,22 @@ import { ChooseContest } from "./choose-contest"
 import { CreatedContest } from "./created-contest"
 import { Running } from "./running-contest"
 import { useAuth0 } from "@auth0/auth0-react"
-import { getSecondsAgo, isContestRunning } from "./utility";
+import { getSecondsAgo, isContestRunning, getQuestionFromProblemId, getRatingFromProblemId } from "./utility";
 
 export default function Contest({leetcodeProfileName}) {
   const [themeCreated, setIsSubmitted] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState(null);
-  const [questions, getQuestions] = useState([]);
-  const [ratings, getRatings] = useState([]);
+  const [questions, getQuestions] = useState([1, 1, 1, 1]);
+  const [ratings, getRatings] = useState([1, 1, 1, 1]);
   const [startTime, getStartTime] = useState(0);
+  const [contestId, setContestId] = useState(-1);
 
   const [running, setRunning] = useState(false);
-  const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
+  const { user } = useAuth0();
 
   useEffect(() => {
+    
     if (!user) return;
-
     async function checkContest() {
       const result = await isContestRunning(user.email);
 
@@ -31,19 +32,31 @@ export default function Contest({leetcodeProfileName}) {
         console.log("No contest found");
         return;
       }
+      // if all the problem of the last contest is solved
+      // then the contest is already finished
       
       // we found the last con
       let sec = getSecondsAgo(result.data.start_time);
-      if(sec < 150){ // contest running
+      setContestId(result.data.id);
+      if(sec < 300){ // contest running
+        console.log("yes contest running")
         setIsSubmitted(true)
         setSelectedLevel(result.data.selected_level)
         setRunning(true)
-        getQuestions([1, 2, 3, 4])
-        getRatings([1, 2, 3, 4444])
+        getQuestions([
+          [result.data.problem_id1, await getQuestionFromProblemId(result.data.problem_id1)],
+          [result.data.problem_id2, await getQuestionFromProblemId(result.data.problem_id2)],
+          [result.data.problem_id3, await getQuestionFromProblemId(result.data.problem_id3)],
+          [result.data.problem_id4, await getQuestionFromProblemId(result.data.problem_id4)]
+        ])
+        getRatings([
+          await getRatingFromProblemId(result.data.problem_id1),
+          await getRatingFromProblemId(result.data.problem_id2),
+          await getRatingFromProblemId(result.data.problem_id3),
+          await getRatingFromProblemId(result.data.problem_id4)
+        ])
         getStartTime(sec)
       }
-
-      console.log("sec", sec)
     }
 
     checkContest();
@@ -63,12 +76,14 @@ export default function Contest({leetcodeProfileName}) {
           <CreatedContest
             level={selectedLevel}
             running={setRunning}
+            setContestId = {setContestId}
             copyQuestions={getQuestions}
             copyRatings={getRatings}
           />
         ) : <Running
-          ques={questions}
-          ratngs={ratings}
+          questions={questions}
+          ratings={ratings}
+          contestId={contestId}
           start_time={startTime}
           leetcodeProfileName={leetcodeProfileName}
         />

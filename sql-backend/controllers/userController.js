@@ -157,4 +157,4 @@ async function saveProfileName(req, res) {
 //     }
 // });
 
-module.exports = { addUser, getProfileName,saveProfileName };
+module.exports = { addUser, getProfileName, saveProfileName };

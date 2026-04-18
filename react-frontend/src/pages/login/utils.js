@@ -3,7 +3,6 @@ import axios from "axios";
 export async function makeEntry(user) {
     try {
         console.log("sending info for user entry")
-        console.log(user)
         const result = await axios.post("http://localhost:3002/add_user", user);
         return result.data; 
     } catch (err) {

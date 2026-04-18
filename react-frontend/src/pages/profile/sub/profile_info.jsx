@@ -33,7 +33,6 @@ export default function ProfileInfo({ leetcodeProfileName, setProfile }) {
 
                 <button
                     onClick={async () => {
-                        console.log("submitted:", value);
                         setProfile(value)
                         await saveProfileName(value, user.email);
                     }}

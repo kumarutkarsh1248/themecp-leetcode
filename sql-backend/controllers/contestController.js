@@ -25,7 +25,7 @@ async function getUserIdFromEmail(req, res, next) {
         }
 
         req.userId = rows[0].id; // store for next handler
-        console.log("user id found successfully")
+        console.log("user id found successfully", rows[0].id)
         next();
     } catch (err) {
         console.error("Error finding user id:", err);
@@ -39,7 +39,8 @@ async function getUserIdFromEmail(req, res, next) {
 async function getProblemIds(req, res, next) {
     const db = getDB();
     const problems = req.body.newAccepted;
-    console.log(problems)
+    console.log("Problems_new_accepted", problems)
+
 
     if (!Array.isArray(problems)) {
         return res.status(400).json({
@@ -73,6 +74,7 @@ async function getProblemIds(req, res, next) {
         }
 
         req.problemIds = rows.map(row => row.id);
+        console.log(req.problem_id1)
         next();
     } catch (err) {
         console.error("Error finding problem ids:", err);
@@ -109,7 +111,8 @@ async function addContest(req, res) {
             });
         }
         return res.status(200).json({
-            message: "all right, contest added"
+            message: "all right, contest added",
+            contest_id: contestResult.insertId
         });
     } catch (err) {
         console.log("something bad happened from the db side", err);
@@ -164,6 +167,7 @@ async function insertSolvedProblems(req, res) {
     const db = getDB();
     const userId = req.userId;
     const problemIds = req.problemIds;
+    console.log("=>", userId, problemIds)
 
     if (!problemIds || problemIds.length === 0) {
         return res.status(200).json({
@@ -201,5 +205,51 @@ async function insertSolvedProblems(req, res) {
     }
 }
 
-module.exports = { getUserIdFromEmail, getProblemIds, addContest, isContestRunning, insertSolvedProblems };
+async function getContest(req, res) {
+    const contestId = req.query.contestId;
+    const db = getDB();
+
+    if (!contestId) {
+        return res.status(400).json({
+            message: "contestId is required"
+        });
+    }
+
+    try {
+        const sql = `
+            SELECT *
+            FROM contests
+            WHERE id = ?
+        `;
+
+        const [result] = await db.query(sql, [contestId]);
+
+        if (result.length === 0) {
+            return res.status(404).json({
+                message: `No contest found for id ${contestId}`
+            });
+        }
+
+        return res.status(200).json({
+            data: result[0]
+        });
+
+    } catch (err) {
+        console.log("problem while getting contest problem status");
+        console.log(err);
+
+        return res.status(500).json({
+            message: "Error in backend server while getting contest"
+        });
+    }
+}
+
+module.exports = { 
+    getUserIdFromEmail, 
+    getProblemIds, 
+    addContest, 
+    isContestRunning, 
+    insertSolvedProblems, 
+    getContest 
+};
 

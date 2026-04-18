@@ -11,7 +11,6 @@ export default function Login() {
         const run = async () => {
             if (isAuthenticated) {
                 console.log("inside login and its authennticated")
-                console.log(user)
                 let x = await makeEntry(user);
             }
         };

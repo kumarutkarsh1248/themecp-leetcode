@@ -6,11 +6,13 @@ const {
     getProblemIds,
     addContest,
     isContestRunning,
-    insertSolvedProblems
+    insertSolvedProblems,
+    getContest
 } = require("../controllers/contestController");
 
 router.post("/add_contest", getUserIdFromEmail, addContest);
 router.get("/is_contest_running", getUserIdFromEmail, isContestRunning);
 router.post("/update_submission", getUserIdFromEmail, getProblemIds, insertSolvedProblems);
+router.get("/get_contest", getContest);
 
 module.exports = router;

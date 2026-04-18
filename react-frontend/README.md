@@ -47,5 +47,14 @@ and there will be one trigger which will update the problem status in the contes
 
 17. associate the leetcode profile with the email.
 
+18. before addding the leetcode profile in the users table first check if its valid or not
+
+19. accepted problem is not apprearing
+
+20. during the start of contest theres some bug in refresh submission button
+21. make a col on contest which tells if the contest is running or finished
+for finished theres only two cases => either all the problems are solved or time finished
+
+
 ## ER diagram of the current database
 <img src="images/db.png" width="600"/>
