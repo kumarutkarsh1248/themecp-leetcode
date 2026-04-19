@@ -5,7 +5,7 @@ import { Running } from "./running-contest"
 import { useAuth0 } from "@auth0/auth0-react"
 import { getSecondsAgo, isContestRunning, getQuestionFromProblemId, getRatingFromProblemId } from "./utility";
 
-export default function Contest({leetcodeProfileName}) {
+export default function Contest({ leetcodeProfileName }) {
   const [themeCreated, setIsSubmitted] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [questions, getQuestions] = useState([1, 1, 1, 1]);
@@ -17,7 +17,7 @@ export default function Contest({leetcodeProfileName}) {
   const { user } = useAuth0();
 
   useEffect(() => {
-    
+
     if (!user) return;
     async function checkContest() {
       const result = await isContestRunning(user.email);
@@ -32,13 +32,22 @@ export default function Contest({leetcodeProfileName}) {
         console.log("No contest found");
         return;
       }
-      // if all the problem of the last contest is solved
-      // then the contest is already finished
-      
+
       // we found the last con
       let sec = getSecondsAgo(result.data.start_time);
       setContestId(result.data.id);
-      if(sec < 300){ // contest running
+      if (sec < 50) { // contest running
+        // if all the problem of the last contest is solved
+        // then the contest is already finished
+        if (result.data.problem1_status == "solved_during_contest" &&
+          result.data.problem1_status == "solved_during_contest" &&
+          result.data.problem1_status == "solved_during_contest" &&
+          result.data.problem1_status == "solved_during_contest"
+        ) {
+          console.log("all the problems of last contest is solved, good");
+          return;
+        }
+
         console.log("yes contest running")
         setIsSubmitted(true)
         setSelectedLevel(result.data.selected_level)
@@ -76,7 +85,7 @@ export default function Contest({leetcodeProfileName}) {
           <CreatedContest
             level={selectedLevel}
             running={setRunning}
-            setContestId = {setContestId}
+            setContestId={setContestId}
             copyQuestions={getQuestions}
             copyRatings={getRatings}
           />

@@ -95,7 +95,8 @@ export function CreatedContest({ level, running, setContestId, copyQuestions, co
             </div>
 
             <button className="start-btn" onClick={async () => {
-                const contest_id = await registerContest(user["email"], level, questions);
+                console.log("just about to register the contest");
+                const contest_id = await registerContest(user.email, level, questions);
                 running(true);
                 setContestId(contest_id);
                 console.log("contest_id", contest_id);

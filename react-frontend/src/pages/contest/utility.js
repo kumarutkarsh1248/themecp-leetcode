@@ -62,7 +62,7 @@ async function registerContest(email, level, questions) {
 
     try {
         const result = await axios.post("http://localhost:3002/contest/add_contest", data);
-        return result.contest_id;
+        return result.data.contest_id;
     }
     catch (err) {
         console.log(err)

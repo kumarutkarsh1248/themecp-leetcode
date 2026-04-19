@@ -206,8 +206,11 @@ async function insertSolvedProblems(req, res) {
 }
 
 async function getContest(req, res) {
+    console.log("***** inside getContest");
     const contestId = req.query.contestId;
     const db = getDB();
+    console.log(contestId);
+
 
     if (!contestId) {
         return res.status(400).json({
