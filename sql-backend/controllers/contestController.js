@@ -1,6 +1,7 @@
 const { getDB } = require("../config/db");
 
 async function getUserIdFromEmail(req, res, next) {
+    console.log("inside getUserIdFromEmail")
     const db = getDB();
     // to handle both get and put routes
     const email = req.body?.email || req.query?.email;
@@ -63,7 +64,6 @@ async function getProblemIds(req, res, next) {
         `;
 
         const [rows] = await db.query(sql, problems);
-        console.log(placeholders, rows)
 
         if (rows.length === 0) {
 
@@ -247,12 +247,52 @@ async function getContest(req, res) {
     }
 }
 
-module.exports = { 
-    getUserIdFromEmail, 
-    getProblemIds, 
-    addContest, 
-    isContestRunning, 
-    insertSolvedProblems, 
-    getContest 
+async function getContestHistory(req, res) {
+    const db = getDB();
+    const userId = req.userId;
+
+    try {
+        const [contestRows] = await db.query(
+        `
+            SELECT *
+            FROM contests
+            WHERE user_id = ?
+        `,
+            [userId]
+        );
+
+        if (contestRows.length === 0) {
+            return res.status(200).json({
+                success: true,
+                data: null,
+                message: "No contest found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: contestRows,
+            message: "Contest fetched successfully",
+        });
+    } catch (error) {
+        console.error("Error in isContestRunning:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+}
+
+
+
+module.exports = {
+    getUserIdFromEmail,
+    getProblemIds,
+    addContest,
+    isContestRunning,
+    insertSolvedProblems,
+    getContest,
+    getContestHistory
 };
 

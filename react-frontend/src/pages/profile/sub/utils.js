@@ -23,7 +23,26 @@ async function saveProfileName(user_profile_name, email){
     }
 }
 
+async function getContestHistory(email) {
+    console.log("&&&&&&", email)
+    try {
+        const result = await axios.get(
+            "http://localhost:3002/contest/contest_history",
+            {
+                params: { email }
+            }
+        );
+        console.log("insdie get contest history")
+        console.log(result.data);
+        return result.data.data;
+    } catch (err) {
+        console.log("some error getting the contest history");
+        console.log(err);
+    }
+}
+
 export {
     saveProfileName,
-    getUserData
+    getUserData,
+    getContestHistory
 };

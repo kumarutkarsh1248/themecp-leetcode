@@ -30,8 +30,8 @@ export default function App() {
       if (isAuthenticated && user) {
         console.log("inside app and authenticated");
         await makeEntry(user);
-        const profileName =  await getProfileName(user.email);
-        if(profileName) setProfile(profileName);
+        const profileName = await getProfileName(user.email);
+        if (profileName) setProfile(profileName);
       }
     };
     run();
@@ -43,13 +43,18 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/contest" element={<Contest leetcodeProfileName={leetcodeProfileName}/>} />
+        <Route path="/contest" element={<Contest leetcodeProfileName={leetcodeProfileName} />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/level-sheet" element={<Level_sheet />} />
         <Route path="/login" element={<Login />} />
 
         <Route path="/profile" element={<Profile />}>
-          <Route path="profile_info" element={<ProfileInfo leetcodeProfileName={leetcodeProfileName} setProfile={setProfile}/>} />
+          {/* default route */}
+          <Route
+            index
+            element={<ProfileInfo  leetcodeProfileName={leetcodeProfileName} setProfile={setProfile}/>}
+          />
+          <Route path="profile_info" element={<ProfileInfo leetcodeProfileName={leetcodeProfileName} setProfile={setProfile} />} />
           <Route path="contest_history" element={<ContestHistory />} />
         </Route>
 

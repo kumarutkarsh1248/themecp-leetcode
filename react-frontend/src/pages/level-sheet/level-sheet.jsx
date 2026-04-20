@@ -85,7 +85,7 @@ export default function LevelSheet() {
   });
 
   return (
-    <div>
+    <div className="level-sheet">
       <h1>LEVEL-SHEET</h1>
 
       <TableHeading />
